@@ -3,8 +3,8 @@ import hide from "../assets/hide.png";
 import show from "../assets/visible.png";
 
 
-function Password(){
-const [password, setPassword] = useState('')
+function Password({password, setPassword,defaultValue}){
+// const [password, setPassword] = useState('');
     const visible = useRef();
     const passwordType = useRef();
 
@@ -25,7 +25,7 @@ const [password, setPassword] = useState('')
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            
+            required
           />
           <div id="password_image_wrapper" onClick={changeVisibility}>
             <img id="password_image" src={hide} ref={visible} />
