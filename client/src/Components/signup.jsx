@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import Axios from "axios";
-require("dotenv").config()
-Axios.defaults.baseURL = process.env.BASE_URL;
+const BaseUrl = import.meta.env.VITE_BASE_URL 
+Axios.defaults.baseURL = BaseUrl
 
 import hide from "../assets/hide.png";
 import show from "../assets/visible.png";
@@ -70,7 +70,7 @@ function SignUp() {
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            type="password"
+            
           />
           <div id="password_image_wrapper" onClick={changeVisibility}>
             <img id="password_image" src={hide} ref={visible} />
