@@ -3,6 +3,10 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors")
+const path = require("path");
+const session = require("express-session");
+const passport = require("passport")
+const LocalStrategy = require("passport-local").Strategy;
 const userRouter = require("./routes/user");
 const messageRouter = require("./routes/message");
 const signUpRouter = require("./routes/signup");
