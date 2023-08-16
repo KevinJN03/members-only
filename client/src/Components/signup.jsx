@@ -1,23 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import Axios from "axios";
+import Password from "./password";
 const BaseUrl = import.meta.env.VITE_BASE_URL 
 Axios.defaults.baseURL = BaseUrl
 
-import hide from "../assets/hide.png";
-import show from "../assets/visible.png";
 function SignUp() {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const visible = useRef();
-  const passwordType = useRef();
-  const changeVisibility = () => {
-    passwordType.current.type === "password" && password.length > 0
-      ? (passwordType.current.type = "text") && (visible.current.src = show)
-      : (passwordType.current.type = "password") &&
-        (visible.current.src = hide);
-  };
 
   const postData = (e) => {
     e.preventDefault();
@@ -62,20 +52,7 @@ function SignUp() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <section className="flexrow " id="password-section">
-          <input
-            ref={passwordType}
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            
-          />
-          <div id="password_image_wrapper" onClick={changeVisibility}>
-            <img id="password_image" src={hide} ref={visible} />
-          </div>
-        </section>
+        <Password/>
 
         <button type="submit" onClick={postData}>
           Submit
