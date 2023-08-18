@@ -12,16 +12,10 @@ const Router = () => {
             element: <App />
         },
         {
-            path: "signup",
-            element: <SignUp/>
-        }, {
-            path: "login",
-            element: <Login/>
-        }, 
-        {
-            path: "dashboard",
-            element: <DashBoard/>
+            path: "/:name",
+            element: <App />
         }
+
     ])
     return < RouterProvider router={router}/>;
 };

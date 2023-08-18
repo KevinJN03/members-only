@@ -1,45 +1,39 @@
-import { useEffect, useState } from 'react'
-import {Link} from "react-router-dom"
+import { useEffect, useState, useContext, createContext } from "react";
+
 import axios from "axios";
-axios.defaults.withCredentials = true
-import './App.css'
-
+import Header from "./Components/header";
+axios.defaults.withCredentials = true;
+import "./App.css";
+import Footer from "./Components/footer";
+import Body from "./Components/Body";
+import { AuthProvider } from "./Context/authContext";
+export const MessageContext = createContext();
+import moonLoader from "react-spinners/MoonLoader";
 function App() {
-const [data, setData] = useState("")
-useEffect(() => {
-axios.get("/").then(res => 
-  {
-    console.log(res)
-    setData(res.data)
-  }
-  )
-
+  const [data, setData] = useState({});
+  const [messages, setMessages] = useState([]);
+  const [headerOption, setHeaderOption] = useState("false");
+  const [loading, setLoading] = useState(true)
+   
+  useEffect(() => {
+    axios.get("/message").then((res) => {
+      //const { message } = res.data;
+      console.log("messages", res.data)
+      setMessages(res.data);
+    });
+  }, []);
  
-
-}, [])
-
-const getUser = (e) => {
-e.preventDefault()
-  axios.get("/").then(res => 
-    {
-      console.log(res)
-      setData(res)
-    }
-    )
-}
-
-const logout = () => {
-  axios.get("/logout")
-}
   return (
-    <>
-    <Link to="/signup">Signup</Link><br></br>
-    <Link to ="/login">Login</Link>
-    <button type="button" onClick={logout}>Logout</button>
-      <h1>data: {data ? data.first_name : ""}</h1>
-      <button type="button" onClick={getUser}>Get User Info</button>
-    </>
-  )
+    <AuthProvider >
+      <MessageContext.Provider value={messages}>
+       
+          <Header />
+          {loading ? moonLoader : <Body />}
+          <Footer />
+        
+      </MessageContext.Provider>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

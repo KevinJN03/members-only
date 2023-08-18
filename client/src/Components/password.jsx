@@ -16,9 +16,9 @@ function Password({password, setPassword,defaultValue}){
       };
 
     return(
-        <>
+        <section id="password">
  <section className="flexrow " id="password-section">
-          <input
+          <input id="password-input"
             ref={passwordType}
             type="password"
             placeholder="Password"
@@ -31,7 +31,7 @@ function Password({password, setPassword,defaultValue}){
             <img id="password_image" src={hide} ref={visible} />
           </div>
         </section>
-        </>
+        </section>
     )
 }
 

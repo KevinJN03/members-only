@@ -29,10 +29,10 @@ function SignUp() {
   };
 
   return (
-    <>
-      <h2>SignUp form</h2>
+    <section id="signup" className="flexColumn alignCenter ">
+      <h2>Sign Up</h2>
       <hr></hr>
-      <form
+      <form className="flexColumn alignCenter"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -66,10 +66,10 @@ function SignUp() {
         <Password password={password} setPassword={setPassword}/>
 
         <button type="submit" onClick={postData}>
-          Submit
+          Sign Up
         </button>
       </form>
-    </>
+    </section>
   );
 }
 export default SignUp;
