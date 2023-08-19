@@ -5,39 +5,61 @@ import axios from "axios";
 import MoonLoader from "react-spinners/MoonLoader";
 import { useAuth } from "../Context/authContext";
 import "../App.css";
+import Pagination from "./Pagination";
+
 function Message() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isLoggedIn, authUser } = useAuth();
+  const [pages, setPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [count, setCount] = useState();
+  const fetchMessages = (num, count) => {
+    try {
+      axios
+        .get(`/message/query?page=${num}&limit=10`)
+        .then((res) => {
+          setMessages(res.data.results.message);
 
-  const fetchMessages = () => {
-    axios
-      .get("/message")
-      .then((res) => {
-        setMessages(res.data);
-      })
-      .then(
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000)
-      );
+          if (count) {
+            count(res.data.results.count);
+          }
+        })
+        .then(
+          setTimeout(() => {
+            setLoading(false);
+          }, 1000)
+        );
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  // UseEffect for Current Page
   useEffect(() => {
-    console.log("message component did update");
+    fetchMessages(currentPage);
+    return () => {
+      setLoading(true);
+    };
+  }, [currentPage]);
+
+  useEffect(() => {
+ 
     setLoading(true);
 
-    fetchMessages();
+    fetchMessages(1);
 
     return () => {
       setMessages([]);
     };
   }, [isLoggedIn, authUser]);
-  useEffect(() => {
-    fetchMessages();
 
-    return () => {
-      setMessages([]);
-    };
+  useEffect(() => {
+    fetchMessages(1, setCount);
+
+    // return () => {
+    //   setMessages([]);
+    // };
   }, []);
 
   function getMessages() {
@@ -76,21 +98,37 @@ function Message() {
       </>
     );
   }
+
+  const changePage = (e) => {
+    setCurrentPage(e.selected + 1);
+  };
+
   return (
     <section id="message-section" className="alignCenter flexColumn">
       <h2 id="title">Messages</h2>
-
-      {loading ? (
-        <MoonLoader
-          color={"#6b01b7"}
-          loading={loading}
-          size={50}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      ) : (
-        getMessages()
-      )}
+      <div
+        id="message-wrapper"
+        className="flexColumn alignCenter justifyCenter"
+      >
+        {loading ? (
+          <>
+            <MoonLoader
+              color={"#6b01b7"}
+              loading={loading}
+              size={50}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </>
+        ) : (
+          <>{getMessages()}</>
+        )}
+      </div>
+      <Pagination
+        changePage={changePage}
+        count={count}
+        currentPage={currentPage}
+      />
     </section>
   );
 }
