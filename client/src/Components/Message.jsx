@@ -51,12 +51,12 @@ function Message() {
                 title={msg.title}
                 text={msg.text}
                 author={
-                  authUser && authUser.user.access
+                  authUser && authUser.access
                     ? msg.author.first_name
                     : "anonymous"
                 }
                 note={
-                  authUser && authUser.user.access ? (
+                  authUser && authUser.access ? (
                     ""
                   ) : (
                     <span>
@@ -65,8 +65,8 @@ function Message() {
                     </span>
                   )
                 }
-                date={authUser && authUser.user.access ? msg.beautifyDate : ""}
-                hr={authUser && authUser.user.access ? "" : <hr></hr>}
+                date={authUser && authUser.access ? msg.beautifyDate : ""}
+                hr={authUser && authUser.access ? "" : <hr></hr>}
               />
             );
           })

@@ -26,25 +26,26 @@ module.exports = function (passport) {
     )
   );
 
-  passport.serializeUser((user, cb) => {
-    cb(null, user.id);
+  passport.serializeUser((user, done) => {
+    console.log("user at serial: ", user.id);
+    done(null, user.id);
   });
 
-  passport.deserializeUser(async (id, cb) => {
+  passport.deserializeUser(async (id, done) => {
     try {
-      const user = await User.findById(id);
-      const {_id, email, access, first_name} = user
-      const newUser = {
-        _id,
-        // fullname: user.fullname,
+      // const {id, email, access, first_name} = await User.findById(_id);
+      const { email, access, first_name } = await User.findById(id);
+      // const {id, email, access, first_name} = user
+      const user = {
+        id,
         first_name,
+        email,
         access,
-        email
-
-      }
-      cb(null, newUser);
+      };
+      console.log("newUser: ", user);
+      return done(null, user);
     } catch (err) {
-      cb(err);
+      done(err);
     }
   });
 };

@@ -2,12 +2,17 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-    req.logout(function (err) {
+if(req.user){
+  req.logout(function (err) {
       if (err) {
         return next(err);
       }
-      res.status(200).send(req.user);
+      return res.send("logged Out");
     });
+} else {
+   res.send("You are not logged in, So I cant logged you out")
+}
+    
   });
 
   module.exports = router

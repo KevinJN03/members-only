@@ -1,19 +1,9 @@
 const express = require("express");
-const router = express.Router()
-const User = require("../model/User")
+const router = express.Router();
+const User = require("../model/User");
 
 router.get("/", async (req, res, next) => {
-  
-    res.send("your at the user login page")
-})
+  res.send(req.user);
+});
 
-router.post("/", async (req, res, next) => {
-    
-    // console.log("body: ", req.body)
-    const user = await User.create(req.body);
-    res.send(req.body)
-})
-
-
-
-module.exports = router
+module.exports = router;
