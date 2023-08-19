@@ -13,8 +13,11 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': [
-      '0',
+      2,
       { allowConstantExport: true },
     ],
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "no-console": 2,
   },
 }

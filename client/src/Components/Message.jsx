@@ -1,21 +1,15 @@
 import MessageItem from "./MessageItem";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import MoonLoader from "react-spinners/MoonLoader";
 import { useAuth } from "../Context/authContext";
 import "../App.css";
-const options = {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-};
 function Message() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isLoggedIn, authUser } = useAuth();
-  const [login, setLogin] = useState(isLoggedIn);
+
   const fetchMessages = () => {
     axios
       .get("/message")
