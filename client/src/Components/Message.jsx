@@ -19,16 +19,16 @@ function Message() {
       axios
         .get(`/message/query?page=${num}&limit=10`)
         .then((res) => {
-          setMessages(res.data.results.message);
+          setMessages(res.data.message);
 
           if (count) {
-            count(res.data.results.count);
+            count(res.data.count);
           }
         })
         .then(
           setTimeout(() => {
             setLoading(false);
-          }, 1000)
+          }, 1500)
         );
     } catch (err) {
       console.log(err);

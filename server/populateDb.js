@@ -11,7 +11,7 @@ async function main() {
   const dbName = process.env.DBName;
   const connectDb = await mongoose.connect(process.env.MONGO_URI).dbName;
   const hashedpassword = await bcrypt.hash("faker123", 10)
-  const users = createUsers(10, hashedpassword);
+  const users = createUsers(100, hashedpassword);
   const allUsers = await User.insertMany(users) 
   let userId = []
   await allUsers.forEach(item => {
