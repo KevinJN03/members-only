@@ -1,21 +1,23 @@
+var passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const User = require("../model/User");
-const {body, validationResult} = require("express-validator")
-const asyncHandler = require("express-async-handler");
+const express = require("express");
+const router = express.Router();
+const bcrypt = require("bcryptjs");
+require("../config/passportConfig")(passport);
 
+exports.post_login = [
+  function (req, res, next) {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) throw err;
+      if (!user) res.status(401).send("no User Exists");
 
-export const login_post = [
-    body("email", "Not a valid Email").trim().escape().isEmail(). custom(async(email) => {
-        const user = User.findOne({email: email});
-
-        if(!user){
-            throw new Error("User is not Registered");
-        }
-    }),
-    asyncHandler(async (req, res, next) => {
-        const result = validationResult(req);
-        console.log("result: ", result)
-        if(!result.isEmpty) {
-            res.status(400).send(result.errors)
-        }
-    })
-]
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        // res.status(200).send("sucessfully Authenticated");
+    res.redirect("/")
+        //res.status(200).send(req.user)
+      });
+    })(req, res, next);
+  },
+];

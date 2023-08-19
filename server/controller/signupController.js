@@ -43,8 +43,8 @@ exports.signUp_post = [
       return;
     }
 
-    const { first_name, last_name, email } = matchedData(req);
-    bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+    const { first_name, last_name, email, password } = matchedData(req);
+    await bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
       if(err){
         next(err);
       }
@@ -58,6 +58,6 @@ exports.signUp_post = [
       await User.create(user);
     });
 
-    res.status(201).send("user created").end();
+    res.status(201).send("user created");
   }),
 ];
