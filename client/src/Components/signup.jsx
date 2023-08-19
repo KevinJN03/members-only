@@ -5,12 +5,24 @@ const BaseUrl = import.meta.env.VITE_BASE_URL
 Axios.defaults.baseURL = BaseUrl
 import { redirect } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import MoonLoader from "react-spinners/MoonLoader";
 function SignUp() {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true)
+
+  useEffect(()=> {
+    setTimeout(()=>{
+        setLoading(false)
+    }, 1000)
+
+    return() =>{
+      setLoading(true)
+    }
+  },[])
   const postData = (e) => {
     e.preventDefault();
     Axios.post("/signup", {
@@ -30,7 +42,16 @@ function SignUp() {
 
   return (
     <section id="signup" className="flexColumn alignCenter ">
-      <h2>Sign Up</h2>
+      {loading ? <MoonLoader
+          color={"#6b01b7"}
+          loading={loading}
+          
+          size={50}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        /> :
+        <>
+        <h2>Sign Up</h2>
       <hr></hr>
       <form className="flexColumn alignCenter"
         style={{
@@ -69,6 +90,10 @@ function SignUp() {
           Sign Up
         </button>
       </form>
+        </>
+        }
+        
+      
     </section>
   );
 }

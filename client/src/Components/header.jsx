@@ -1,23 +1,24 @@
-import { Link } from "react-router-dom";
+
 import axios from "axios";
 import { useEffect, useState, createContext } from "react";
 
 import { useAuth } from "../Context/authContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Header({}) {
   //const refresh = () => window.location.reload(true)
   const [member, setMember] = useState("");
   const navigate = useNavigate();
-  const { authUser, isLoggedIn, setIsLoggedIn } = useAuth();
+  const { authUser, isLoggedIn, setIsLoggedIn, setAuthUser } = useAuth();
   const [login, setlogin] = useState(isLoggedIn);
   //setlogin(isLoggedIn)
 
   const logout = (e) => {
     e.preventDefault();
     axios.get("/logout");
-    localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("authUser");
+    localStorage.removeItem("isLoggedIn");
+    setAuthUser("");
     //setlogin(false)
     setIsLoggedIn(false);
     navigate("/");
@@ -51,6 +52,7 @@ function Header({}) {
   const account_Dropdown = () => {
     return (
       <>
+        {/* <section id="dropdown-btn"> */}
         <div className="dropdown">
           <button
             className="btn btn-secondary dropdown-toggle"
@@ -62,23 +64,34 @@ function Header({}) {
             Account
           </button>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li className="dropdown-header">Login in as: </li>
-            <li className="dropdown-header">
+            <li className="dropdown-header">Logged in as: </li>
+            <li className="dropdown-header bolder">
               {authUser ? authUser.user.first_name : ""}{" "}
+            </li>
+            <li className="dropdown-header">
+              {authUser ? authUser.user.email : ""}{" "}
             </li>
             <li>
               <hr className="dropdown-divider" />
             </li>
             <li className="dropdown-header">Membership Status</li>
-            <li className="dropdown-header">{member}</li>
+            <li className="dropdown-header bolder">{member}</li>
             <li>
               <hr className="dropdown-divider" />
             </li>
+            <li>
+            <Link to="/dashboard">DashBoard</Link>
+            </li>
+            <li>
+              <hr className="dropdown-divider" />
+            </li>
+     
             <li>
               <button onClick={logout}>Logout</button>
             </li>
           </ul>
         </div>
+        {/* </section> */}
       </>
     );
   };

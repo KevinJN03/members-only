@@ -8,7 +8,6 @@ export function AuthProvider(props) {
     useEffect(() => {
         // Check if the user was previously authenticated and set the state accordingly
         const storedAuthState = localStorage.getItem('isLoggedIn');
-        console.log("storedAusth: ", storedAuthState)
         if (storedAuthState === 'true') {
             setIsLoggedIn(true)
         }

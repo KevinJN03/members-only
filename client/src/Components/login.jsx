@@ -5,10 +5,11 @@ import Password from "./password";
 import axios from "axios";
 import "../App.css";
 import { useAuth } from "../Context/authContext";
-
+import MoonLoader from "react-spinners/MoonLoader"
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const { authUser, setAuthUser, isLoggedIn, setIsLoggedIn } = useAuth();
@@ -20,6 +21,16 @@ function Login() {
     setIsLoggedIn(true), setAuthUser(userData);
 ;
   };
+
+  useEffect(()=> {
+    setTimeout(()=> {
+      setLoading(false)
+    }, 1000)
+
+    return () => {
+      setLoading(true)
+    }
+  }, [])
   let route = useParams();
 
   const postData = () => {
@@ -39,8 +50,27 @@ function Login() {
       .catch((err) => console.log("error: ", err));
   };
   return (
+
+
+    <>
     <section id="login" className="flexColumn alignCenter ">
-      <h2>Login</h2>
+      {/* <h2>Login</h2>
+      <hr></hr> */}
+    {loading ? <MoonLoader
+    color={"#6b01b7"}
+    loading={loading}
+    
+    size={50}
+    aria-label="Loading Spinner"
+    data-testid="loader"
+    /> :
+    
+    
+    // <section id="login" className="flexColumn alignCenter ">
+    //   <h2>Login</h2>
+    //   <hr></hr>
+    <>
+    <h2>Login</h2>
       <hr></hr>
       <form
         onSubmit={(e) => e.preventDefault()}
@@ -59,7 +89,14 @@ function Login() {
           Log In
         </button>
       </form>
+    </>
+    
+    
+    
+    }
     </section>
+    </>
+    
   );
 }
 
