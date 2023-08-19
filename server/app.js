@@ -26,7 +26,7 @@ async function main() {
 
 const app = express();
 app.use(morgan("dev"));
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: "https://memberonly-backend.onrender.com", credentials: true }));
 app.use(cookieParser(secret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
