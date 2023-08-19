@@ -1,17 +1,13 @@
-import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Login from "./login";
 import SignUp from "./signup";
 import Message from "./message";
-
 import DashBoard from "./dashboard";
-import { useAuth } from "../Context/authContext";
-function Body({}) {
-  const { isLoggedIn } = useAuth();
+function Body() {
   var content;
   const navigate = useNavigate();
   const { name } = useParams();
-  const [loading, setLoading] = useState();
+
   function changeContent() {
     if (name === "login") {
       return (content = <Login />);
@@ -23,7 +19,7 @@ function Body({}) {
     if (!name) {
       return (content = <Message />);
     } else {
-        navigate("/");
+      navigate("/");
     }
   }
   changeContent();

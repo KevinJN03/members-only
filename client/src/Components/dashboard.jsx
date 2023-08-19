@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { useState, useContext } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MoonLoader from "react-spinners/MoonLoader";
 import { useAuth } from "../Context/authContext";
@@ -10,7 +9,7 @@ function DashBoard() {
   const [text, setText] = useState("");
   const [access, setAccess] = useState("");
   const navigate = useNavigate();
-  const { authUser, setAuthUser, isLoggedIn, setIsLoggedIn } = useAuth();
+  const { authUser, setAuthUser } = useAuth();
   if (authUser == null) {
     navigate("/login");
   }
@@ -22,9 +21,8 @@ function DashBoard() {
 
     return () => {
       setLoading(true);
-    }
+    };
   }, []);
-  console.log(authUser);
   const postData = () => {
     axios
       .post("/message/create", {
@@ -47,8 +45,6 @@ function DashBoard() {
         access,
       })
       .then((res) => {
-        console.log("res.data: ", res.data);
-
         if (res.status == 200) {
           setAuthUser({ ...authUser, access: true });
           localStorage.setItem("authUser", JSON.stringify(authUser));
@@ -106,26 +102,26 @@ function DashBoard() {
             <button onClick={postData}>Submit</button>
           </form>
         </div>
-        </>
+      </>
     );
   }
 
   return (
     <>
-    <section id="dashboard" className="alignCenter justifyCenter" >
+      <section id="dashboard" className="alignCenter justifyCenter">
         {/* <h2></h2> */}
-      {loading ? (
-        <MoonLoader
-          color={"#6b01b7"}
-          loading={loading}
-          // cssOverride={override}
-          size={50}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      ) : (
-        getDashBoard()
-      )}
+        {loading ? (
+          <MoonLoader
+            color={"#6b01b7"}
+            loading={loading}
+            // cssOverride={override}
+            size={50}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        ) : (
+          getDashBoard()
+        )}
       </section>
     </>
   );
