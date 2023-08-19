@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import Login from "./login";
 import SignUp from "./signup";
-import Message from "./message";
+import Message from "./Message";
 import DashBoard from "./dashboard";
 function Body() {
   var content;
