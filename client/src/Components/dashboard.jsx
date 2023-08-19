@@ -58,14 +58,14 @@ function DashBoard() {
         <h2>
           Hi,{" "}
           {authUser
-            ? authUser.user.first_name[0].toUpperCase() +
-              authUser.user.first_name.substring(
+            ? authUser.first_name[0].toUpperCase() +
+              authUser.first_name.substring(
                 1,
-                authUser.user.first_name.length
+                authUser.first_name.length
               )
             : ""}
         </h2>
-        {authUser && authUser.user.access == true ? (
+        {authUser && authUser.access == true ? (
           <></>
         ) : (
           <div id="access">

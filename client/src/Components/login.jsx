@@ -43,6 +43,7 @@ function Login() {
           logIn(res.data);
           navigate("/dashboard");
         }
+      
       })
       .catch((err) => console.log("error: ", err));
   };

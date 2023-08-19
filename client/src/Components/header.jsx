@@ -1,11 +1,11 @@
 
 import axios from "axios";
-import { useEffect, useState, createContext } from "react";
+import { useEffect, useState } from "react";
 
 import { useAuth } from "../Context/authContext";
 import { useNavigate, Link } from "react-router-dom";
 
-function Header({}) {
+function Header() {
   //const refresh = () => window.location.reload(true)
   const [member, setMember] = useState("");
   const navigate = useNavigate();
@@ -32,7 +32,8 @@ function Header({}) {
   useEffect(() => {}, [memberStatus]);
 
   function memberStatus() {
-    if (authUser && authUser.user.access == true) {
+   
+    if (authUser && authUser.access == true) {
       setMember("Member");
     } else {
       setMember("Not Member");
@@ -66,10 +67,10 @@ function Header({}) {
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li className="dropdown-header">Logged in as: </li>
             <li className="dropdown-header bolder">
-              {authUser ? authUser.user.first_name : ""}{" "}
+              {authUser ? authUser.first_name : ""}{" "}
             </li>
             <li className="dropdown-header">
-              {authUser ? authUser.user.email : ""}{" "}
+              {authUser ? authUser.email : ""}{" "}
             </li>
             <li>
               <hr className="dropdown-divider" />

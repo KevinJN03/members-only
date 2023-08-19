@@ -44,10 +44,10 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(function (req, res, next) {
-  req.currentUser = req.user;
-  next();
-});
+// app.use(function (req, res, next) {
+//   req.currentUser = req.user;
+//   next();
+// });
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
@@ -56,7 +56,7 @@ app.use("/message", messageRouter);
 app.use("/signup", signUpRouter);
 app.use((err, req, res, next) => {
   if (err) {
-    console.error(err.stack);
+    console.error("Here is the Error Stack: " + err.stack);
     res.status(500).send("Error! Something has Broken");
   }
 });
