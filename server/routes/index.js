@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
     return res.status(401).send("UnAuthenticated")
   } else {
     
-    res.send({ user: req.user });
+    res.json({ user: req.user });
   }
 });
 
