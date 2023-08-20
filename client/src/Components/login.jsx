@@ -40,7 +40,7 @@ function Login() {
         
 
         if (res.status == 200) {
-          logIn(res.data);
+          logIn(res.data.user);
           navigate("/dashboard");
         }
       

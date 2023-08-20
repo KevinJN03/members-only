@@ -18,7 +18,7 @@ exports.post_login = [
     // res.redirect("/")
     console.log("user: ", user)
     console.log("req.user: ", req.user)
-        return res.status(302).redirect("/user")
+        return res.redirect("/user")
       });
     })(req, res, next);
   },
