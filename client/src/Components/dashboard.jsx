@@ -10,12 +10,27 @@ function DashBoard() {
   const [access, setAccess] = useState("");
   const navigate = useNavigate();
   const { authUser, setAuthUser } = useAuth();
-  if (authUser == null) {
-    navigate("/login");
-  }
 
   useEffect(() => {
     setTimeout(() => {
+      const token = localStorage.getItem("token");
+      console.log("token: ", token);
+      axios
+        .get("/user", {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setAuthUser(res.data.user);
+
+          localStorage.setItem("authUser", JSON.stringify(res.data.user))
+        })
+        .catch((err) => {
+          navigate("/login");
+        });
+
       setLoading(false);
     }, 2000);
 
@@ -59,10 +74,7 @@ function DashBoard() {
           Hi,{" "}
           {authUser
             ? authUser.first_name[0].toUpperCase() +
-              authUser.first_name.substring(
-                1,
-                authUser.first_name.length
-              )
+              authUser.first_name.substring(1, authUser.first_name.length)
             : ""}
         </h2>
         {authUser && authUser.access == true ? (
@@ -129,4 +141,4 @@ function DashBoard() {
 
 export default DashBoard;
 
-// upadte the authuser when the user gain access
+// upadte the authauthUserwhen the authUsergain access

@@ -5,24 +5,30 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 require("../config/passportConfig")(passport);
+const issueJwt = require("../libs/utils");
+exports.post_login = function (req, res, next) {
+    User.findOne({ email: req.body.email })
+      .then((user) => {
+        if (!user) {
+          res.status(401).json({ success: false, msg: "could not find user" });
+        }
+        const match = bcrypt.compare(req.body.password, user.password);
 
-exports.post_login = [
-  function (req, res, next) {
-    passport.authenticate("local", (err, user, info) => {
-      if (err) throw err;
-      if (!user) return res.status(401).send("no User Exists");
-
-      req.logIn(user, (err) => {
-        if (err) throw err;
-        // res.status(200).send("sucessfully Authenticated");
-    // res.redirect("/")
-    console.log("user: ", user)
-    console.log("req.user: ", req.user)
-        return res.redirect("/user")
+        if (match) {
+          const tokenObject = issueJwt(user);
+          res
+            .status(200)
+            .json({ success: true, token: tokenObject });
+        } else {
+          res
+            .status(401)
+            .json({ success: false, msg: "You enter the wrong password" });
+        }
+      })
+      .catch((err) => {
+        next(err);
       });
-    })(req, res, next);
   },
-];
 
 
 exports.get_login = (req, res, next) => {
@@ -35,8 +41,8 @@ exports.get_login = (req, res, next) => {
       if (err) next(err);
       //if (err) throw err;
       // res.status(200).send("sucessfully Authenticated");
-      return res.send(req.user)
+      return res.send(req.user);
       //console.log(req.user);
     });
   })(req, res, next);
-}
+};

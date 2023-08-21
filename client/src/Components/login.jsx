@@ -11,13 +11,13 @@ function Login() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const { setAuthUser, setIsLoggedIn } = useAuth();
+  const { setIsLoggedIn } = useAuth();
 
-  const logIn = (userData) => {
+  const logIn = (token) => {
     //e.preventDefault();
     localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("authUser", JSON.stringify(userData));
-    setIsLoggedIn(true), setAuthUser(userData);
+    localStorage.setItem("token", token);
+    setIsLoggedIn(true);
   };
 
   useEffect(() => {
@@ -40,7 +40,9 @@ function Login() {
         
 
         if (res.status == 200) {
-          logIn(res.data.user);
+          console.log(res.data)
+          logIn(res.data.token.token)
+          // logIn(res.data.user);
           navigate("/dashboard");
         }
       
