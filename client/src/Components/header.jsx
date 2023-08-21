@@ -13,24 +13,21 @@ function Header() {
   const [login, setlogin] = useState(isLoggedIn);
   //setlogin(isLoggedIn)
 
+
+  useEffect(() => {
+    memberStatus();
+    setlogin(isLoggedIn);
+  });
   const logout = (e) => {
     e.preventDefault();
     axios.get("/logout");
-    localStorage.removeItem("authUser");
+    localStorage.removeItem("token");
     localStorage.removeItem("isLoggedIn");
     setAuthUser("");
     //setlogin(false)
     setIsLoggedIn(false);
     navigate("/");
   };
-
-  useEffect(() => {
-    memberStatus();
-    setlogin(isLoggedIn);
-  });
-
-  useEffect(() => {}, [memberStatus]);
-
   function memberStatus() {
    
     if (authUser && authUser.access == true) {

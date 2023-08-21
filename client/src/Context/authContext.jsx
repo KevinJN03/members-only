@@ -17,7 +17,8 @@ export function AuthProvider(props) {
       setAuthUser(storedUser);
     }
   }, []);
-  const [authUser, setAuthUser] = useState(null);
+  const [authUser,
+    setAuthUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const value = {

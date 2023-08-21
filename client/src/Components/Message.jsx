@@ -11,7 +11,7 @@ function Message() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isLoggedIn, authUser } = useAuth();
-  const [pages, setPages] = useState(0);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState();
   const fetchMessages = (num, count) => {
@@ -22,6 +22,7 @@ function Message() {
           setMessages(res.data.message);
 
           if (count) {
+            console.log("fetching for count")
             count(res.data.count);
           }
         })
@@ -35,6 +36,12 @@ function Message() {
     }
   };
 
+  // COmponent Did Mount
+  useEffect(() => {
+    fetchMessages(1, setCount);
+
+  }, []);
+
   // UseEffect for Current Page
   useEffect(() => {
     fetchMessages(currentPage);
@@ -43,6 +50,8 @@ function Message() {
     };
   }, [currentPage]);
 
+
+
   useEffect(() => {
  
     setLoading(true);
@@ -50,17 +59,11 @@ function Message() {
     fetchMessages(1);
 
     return () => {
-      setMessages([]);
+      //setMessages([]);
     };
-  }, [isLoggedIn, authUser]);
+  }, [isLoggedIn]);
 
-  useEffect(() => {
-    fetchMessages(1, setCount);
 
-    // return () => {
-    //   setMessages([]);
-    // };
-  }, []);
 
   function getMessages() {
     return (

@@ -18,6 +18,6 @@ module.exports = {
     ],
     "semi": [0, "always"],
     "quotes": [0, "double"],
-    "no-console": 2,
+    "no-console": 0,
   },
 }
