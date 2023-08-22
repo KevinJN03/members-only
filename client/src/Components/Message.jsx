@@ -10,10 +10,28 @@ import Pagination from "./Pagination";
 function Message() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { isLoggedIn, authUser } = useAuth();
-
+  const { isLoggedIn } = useAuth();
+const [user, setUser] = useState()
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState();
+  
+  // COmponent Did Mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios.get("/user", {
+      headers: {
+        Authorization: token
+      }
+    }).then((res) => {
+      setUser(res.data.user)
+    })
+
+
+
+    fetchMessages(1, setCount);
+
+  }, []);
+
   const fetchMessages = (num, count) => {
     try {
       axios
@@ -36,11 +54,6 @@ function Message() {
     }
   };
 
-  // COmponent Did Mount
-  useEffect(() => {
-    fetchMessages(1, setCount);
-
-  }, []);
 
   // UseEffect for Current Page
   useEffect(() => {
@@ -59,7 +72,8 @@ function Message() {
     fetchMessages(1);
 
     return () => {
-      //setMessages([]);
+      setMessages([]);
+      setUser("")
     };
   }, [isLoggedIn]);
 
@@ -76,12 +90,12 @@ function Message() {
                 title={msg.title}
                 text={msg.text}
                 author={
-                  authUser && authUser.access
+                  user && user.access
                     ? msg.author.first_name
                     : "anonymous"
                 }
                 note={
-                  authUser && authUser.access ? (
+                  user && user.access ? (
                     ""
                   ) : (
                     <span>
@@ -90,8 +104,8 @@ function Message() {
                     </span>
                   )
                 }
-                date={authUser && authUser.access ? msg.beautifyDate : ""}
-                hr={authUser && authUser.access ? "" : <hr></hr>}
+                date={user && user.access ? msg.beautifyDate : ""}
+                hr={user && user.access ? "" : <hr></hr>}
               />
             );
           })

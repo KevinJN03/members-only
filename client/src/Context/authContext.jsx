@@ -11,19 +11,12 @@ export function AuthProvider(props) {
     if (storedAuthState === "true") {
       setIsLoggedIn(true);
     }
-    //JSON.parse(localStorage.getItem("authUser"));
-    const storedUser = JSON.parse(localStorage.getItem("authUser"));
-    if (storedUser) {
-      setAuthUser(storedUser);
-    }
+
   }, []);
-  const [authUser,
-    setAuthUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const value = {
-    authUser,
-    setAuthUser,
+    
     isLoggedIn,
     setIsLoggedIn,
   };

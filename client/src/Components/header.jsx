@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -9,10 +8,24 @@ function Header() {
   //const refresh = () => window.location.reload(true)
   const [member, setMember] = useState("");
   const navigate = useNavigate();
-  const { authUser, isLoggedIn, setIsLoggedIn, setAuthUser } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const [user, setUser] = useState();
   const [login, setlogin] = useState(isLoggedIn);
   //setlogin(isLoggedIn)
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
+    if (token) {
+      axios.get("/user", {
+        headers: {
+          Authorization: token,
+        },
+      }).then((res )=> {
+        console.log("user at header")
+          setUser(res.data.user)
+      });
+    }
+  }, []);
 
   useEffect(() => {
     memberStatus();
@@ -23,14 +36,13 @@ function Header() {
     axios.get("/logout");
     localStorage.removeItem("token");
     localStorage.removeItem("isLoggedIn");
-    setAuthUser("");
-    //setlogin(false)
+ 
+   
     setIsLoggedIn(false);
     navigate("/");
   };
   function memberStatus() {
-   
-    if (authUser && authUser.access == true) {
+    if (user && user.access == true) {
       setMember("Member");
     } else {
       setMember("Not Member");
@@ -64,10 +76,10 @@ function Header() {
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li className="dropdown-header">Logged in as: </li>
             <li className="dropdown-header bolder">
-              {authUser ? authUser.first_name : ""}{" "}
+              {user ? user.first_name : ""}{" "}
             </li>
             <li className="dropdown-header">
-              {authUser ? authUser.email : ""}{" "}
+              {user ? user.email : ""}{" "}
             </li>
             <li>
               <hr className="dropdown-divider" />
@@ -78,12 +90,12 @@ function Header() {
               <hr className="dropdown-divider" />
             </li>
             <li>
-            <Link to="/dashboard">DashBoard</Link>
+              <Link to="/dashboard">DashBoard</Link>
             </li>
             <li>
               <hr className="dropdown-divider" />
             </li>
-     
+
             <li>
               <button onClick={logout}>Logout</button>
             </li>
