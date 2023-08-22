@@ -7,6 +7,7 @@ import "./App.css";
 import Footer from "./Components/footer";
 import Body from "./Components/Body";
 import { AuthProvider } from "./Context/authContext";
+import { useEffect } from "react";
 
 function App() {
   return (

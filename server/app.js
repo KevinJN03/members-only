@@ -30,17 +30,17 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(cookieParser(secret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(
-//   session({
-//     secret: secret,
-//     resave: true,
-//     saveUninitialized: true,
-//     cookie: {
-//       secure: false, // Set to 'true' if using HTTPS
+app.use(
+  session({
+    secret: secret,
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      secure: false, // Set to 'true' if using HTTPS
       
-//     },
-//   })
-// );
+    },
+  })
+);
 
 app.use(passport.initialize());
 // app.use(passport.session());

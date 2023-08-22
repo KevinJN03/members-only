@@ -5,9 +5,9 @@ router.get("/", (req, res, next) => {
 
   req.logout(function (err) {
       if (err) {
-        return next(err);
+        next(err);
       }
-      return res.send("logged Out");
+     res.send("logged Out");
     });
 
     

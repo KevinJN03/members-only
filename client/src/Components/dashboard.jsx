@@ -9,7 +9,7 @@ function DashBoard() {
   const [text, setText] = useState("");
   const [access, setAccess] = useState("");
   const navigate = useNavigate();
-  const { authUser, setAuthUser } = useAuth();
+  const [ user, setUser ] = useState();
 
   useEffect(() => {
     setTimeout(() => {
@@ -23,11 +23,12 @@ function DashBoard() {
         })
         .then((res) => {
           console.log(res.data);
-          setAuthUser(res.data.user);
+        setUser(res.data.user)
 
-          localStorage.setItem("authUser", JSON.stringify(res.data.user))
+          //  localStorage.setItem("user", JSON.stringify(res.data.user))
         })
         .catch((err) => {
+          console.log("err", err)
           navigate("/login");
         });
 
@@ -39,11 +40,20 @@ function DashBoard() {
     };
   }, []);
   const postData = () => {
+    const token = localStorage.getItem("token");
     axios
-      .post("/message/create", {
-        text,
-        title,
-      })
+      .post(
+        "/message/create",
+        {
+          text,
+          title,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
           navigate("/");
@@ -55,14 +65,22 @@ function DashBoard() {
 
   const postAccess = (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
     axios
-      .post("/access", {
-        access,
-      })
+      .post(
+        "/access",
+        {
+          access,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
-          setAuthUser({ ...authUser, access: true });
-          localStorage.setItem("authUser", JSON.stringify(authUser));
+          setUser({ ...user, access: true });
         }
       });
   };
@@ -72,12 +90,12 @@ function DashBoard() {
       <>
         <h2>
           Hi,{" "}
-          {authUser
-            ? authUser.first_name[0].toUpperCase() +
-              authUser.first_name.substring(1, authUser.first_name.length)
+          {user
+            ? user.first_name[0].toUpperCase() +
+              user.first_name.substring(1, user.first_name.length)
             : ""}
         </h2>
-        {authUser && authUser.access == true ? (
+        {user && user.access ? (
           <></>
         ) : (
           <div id="access">
@@ -141,4 +159,4 @@ function DashBoard() {
 
 export default DashBoard;
 
-// upadte the authauthUserwhen the authUsergain access
+// upadte the authuserwhen the usergain access
